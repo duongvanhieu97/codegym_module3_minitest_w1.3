@@ -1,0 +1,254 @@
+create database quanlyvattu;
+use quanlyvattu;
+create table vattu (
+	id int not null auto_increment primary key,
+    mavattu varchar(255),
+    tenvattu varchar(255),
+    donvitinh varchar(255),
+    gia int
+);
+create table tonkho (
+	id int not null auto_increment primary key,
+    vattu_id int,
+    soluongdau int,
+    tongsoluongnhap int,
+    tongsoluongxuat int,
+    foreign key (vattu_id) references vattu(id)
+);
+create table nhacungcap (
+	id int not null auto_increment primary key,
+    manhacungcap varchar(255),
+    tennhacungcap varchar(255),
+    diachi varchar(255),
+    sodienthoai varchar(255)
+);
+create table dondathang (
+	id int not null auto_increment primary key,
+    madon varchar(255),
+    ngaydathang date,
+    nhacungcap_id int,
+    foreign key (nhacungcap_id) references nhacungcap(id)
+);
+create table phieunhap (
+	id int not null auto_increment primary key,
+    maphieunhap varchar(255),
+    ngaynhap date,
+    donhang_id int,
+    foreign key (donhang_id) references dondathang(id)
+);
+create table phieuxuat (
+	id int not null auto_increment primary key,
+    maphieuxuat varchar(255),
+    ngayxuat date,
+    tenkhachhang varchar(255)
+);
+create table chitiendonhang (
+	id int not null auto_increment primary key,
+    donhang_id int,
+    vattu_id int,
+    soluongdat int,
+    foreign key (donhang_id) references dondathang(id),
+    foreign key (vattu_id) references vattu(id)
+);
+create table chitietphieunhap (
+	id int not null auto_increment primary key,
+    phieunhap_id int,
+    vattu_id int,
+    soluongnhap int,
+    dongianhap int,
+    ghichu varchar(255),
+    foreign key (phieunhap_id) references phieunhap(id),
+    foreign key (vattu_id) references vattu(id)
+);
+create table chitietphieuxuat (
+	id int not null auto_increment primary key,
+    phieuxuat_id int,
+    vattu_id int,
+    soluongxuat int,
+    dongiaxuat int,
+    ghichu varchar(255),
+    foreign key (phieuxuat_id) references phieuxuat(id),
+    foreign key (vattu_id) references vattu(id)
+);
+-- Vật tư
+INSERT INTO `quanlyvattu`.`vattu` (`id`, `mavattu`, `tenvattu`, `donvitinh`, `gia`) VALUES ('1', 'VT_Đá', 'Đá xanh', '1,3 m^3', '400000');
+INSERT INTO `quanlyvattu`.`vattu` (`id`, `mavattu`, `tenvattu`, `donvitinh`, `gia`) VALUES ('2', 'VT_Cát', 'Cát Vàng', '1,3 m^3', '350000');
+INSERT INTO `quanlyvattu`.`vattu` (`id`, `mavattu`, `tenvattu`, `donvitinh`, `gia`) VALUES ('3', 'VT_Thép', 'Thép 10', 'Cây', '110000');
+INSERT INTO `quanlyvattu`.`vattu` (`id`, `mavattu`, `tenvattu`, `donvitinh`, `gia`) VALUES ('4', 'VT_Gạch', 'Gạch đặc Tuynel', 'Viên', '980');
+INSERT INTO `quanlyvattu`.`vattu` (`id`, `mavattu`, `tenvattu`, `donvitinh`, `gia`) VALUES ('5', 'VT_Xi Măng', 'Xi măng Bỉm Sơn', 'Bao', '1270000');
+-- Tồn kho
+INSERT INTO `quanlyvattu`.`tonkho` (`id`, `vattu_id`, `soluongdau`, `tongsoluongnhap`, `tongsoluongxuat`) VALUES ('1', '1', '500', '100', '300');
+INSERT INTO `quanlyvattu`.`tonkho` (`id`, `vattu_id`, `soluongdau`, `tongsoluongnhap`, `tongsoluongxuat`) VALUES ('2', '2', '600', '200', '400');
+INSERT INTO `quanlyvattu`.`tonkho` (`id`, `vattu_id`, `soluongdau`, `tongsoluongnhap`, `tongsoluongxuat`) VALUES ('3', '3', '1000', '300', '500');
+INSERT INTO `quanlyvattu`.`tonkho` (`id`, `vattu_id`, `soluongdau`, `tongsoluongnhap`, `tongsoluongxuat`) VALUES ('4', '4', '20000', '10000', '12000');
+INSERT INTO `quanlyvattu`.`tonkho` (`id`, `vattu_id`, `soluongdau`, `tongsoluongnhap`, `tongsoluongxuat`) VALUES ('5', '5', '200', '100', '120');
+-- Nhà cung cấp
+INSERT INTO `quanlyvattu`.`nhacungcap` (`id`, `manhacungcap`, `tennhacungcap`, `diachi`, `sodienthoai`) VALUES ('1', 'CC1', 'Hoàng', 'Hà Nam', '0924848203');
+INSERT INTO `quanlyvattu`.`nhacungcap` (`id`, `manhacungcap`, `tennhacungcap`, `diachi`, `sodienthoai`) VALUES ('2', 'CC2', 'Trung', 'Quảng Ninh', '0923535123');
+INSERT INTO `quanlyvattu`.`nhacungcap` (`id`, `manhacungcap`, `tennhacungcap`, `diachi`, `sodienthoai`) VALUES ('3', 'CC3', 'Quân', 'Hải Phòng', '0924569424');
+-- Đơn Hàng
+INSERT INTO `quanlyvattu`.`dondathang` (`id`, `madon`, `ngaydathang`, `nhacungcap_id`) VALUES ('1', 'ĐH1', '2022/09/22', '1');
+INSERT INTO `quanlyvattu`.`dondathang` (`id`, `madon`, `ngaydathang`, `nhacungcap_id`) VALUES ('2', 'ĐH2', '2022/07/22', '2');
+INSERT INTO `quanlyvattu`.`dondathang` (`id`, `madon`, `ngaydathang`, `nhacungcap_id`) VALUES ('3', 'ĐH3', '2022/08/24', '3');
+-- Phiếu Nhập
+INSERT INTO `quanlyvattu`.`phieunhap` (`id`, `maphieunhap`, `ngaynhap`, `donhang_id`) VALUES ('1', 'PN01', '2022-09-24', '1');
+INSERT INTO `quanlyvattu`.`phieunhap` (`id`, `maphieunhap`, `ngaynhap`, `donhang_id`) VALUES ('2', 'PN02', '2022-07-24', '2');
+INSERT INTO `quanlyvattu`.`phieunhap` (`id`, `maphieunhap`, `ngaynhap`, `donhang_id`) VALUES ('3', 'PN03', '2022-08-26', '3');
+-- Phiếu Xuất
+INSERT INTO `quanlyvattu`.`phieuxuat` (`id`, `maphieuxuat`, `ngayxuat`, `tenkhachhang`) VALUES ('1', 'PX01', '2022/09/26', 'Hiếu');
+INSERT INTO `quanlyvattu`.`phieuxuat` (`id`, `maphieuxuat`, `ngayxuat`, `tenkhachhang`) VALUES ('2', 'PX02', '2022/09/24', 'Vinh');
+INSERT INTO `quanlyvattu`.`phieuxuat` (`id`, `maphieuxuat`, `ngayxuat`, `tenkhachhang`) VALUES ('3', 'PX03', '2022/09/25', 'Tuấn');
+-- CT Đơn Hàng
+INSERT INTO `quanlyvattu`.`chitiendonhang` (`id`, `donhang_id`, `vattu_id`, `soluongdat`) VALUES ('1', '1', '1', '300');
+INSERT INTO `quanlyvattu`.`chitiendonhang` (`id`, `donhang_id`, `vattu_id`, `soluongdat`) VALUES ('2', '2', '2', '200');
+INSERT INTO `quanlyvattu`.`chitiendonhang` (`id`, `donhang_id`, `vattu_id`, `soluongdat`) VALUES ('3', '3', '3', '500');
+INSERT INTO `quanlyvattu`.`chitiendonhang` (`id`, `donhang_id`, `vattu_id`, `soluongdat`) VALUES ('4', '1', '4', '12000');
+INSERT INTO `quanlyvattu`.`chitiendonhang` (`id`, `donhang_id`, `vattu_id`, `soluongdat`) VALUES ('5', '2', '5', '120');
+INSERT INTO `quanlyvattu`.`chitiendonhang` (`id`, `donhang_id`, `vattu_id`, `soluongdat`) VALUES ('6', '3', '2', '200');
+-- CT Phiếu Nhập
+INSERT INTO `quanlyvattu`.`chitietphieunhap` (`id`, `phieunhap_id`, `vattu_id`, `soluongnhap`, `dongianhap`, `ghichu`) VALUES ('1', '1', '1', '100', '380000', 'Hoàn Thành');
+INSERT INTO `quanlyvattu`.`chitietphieunhap` (`id`, `phieunhap_id`, `vattu_id`, `soluongnhap`, `dongianhap`, `ghichu`) VALUES ('2', '2', '2', '200', '340000', 'Hoàn Thành');
+INSERT INTO `quanlyvattu`.`chitietphieunhap` (`id`, `phieunhap_id`, `vattu_id`, `soluongnhap`, `dongianhap`, `ghichu`) VALUES ('3', '3', '3', '300', '100000', 'Hoàn Thành');
+INSERT INTO `quanlyvattu`.`chitietphieunhap` (`id`, `phieunhap_id`, `vattu_id`, `soluongnhap`, `dongianhap`, `ghichu`) VALUES ('4', '1', '4', '4000', '950', 'Hoàn Thành');
+INSERT INTO `quanlyvattu`.`chitietphieunhap` (`id`, `phieunhap_id`, `vattu_id`, `soluongnhap`, `dongianhap`, `ghichu`) VALUES ('5', '2', '4', '6000', '950', 'Hoàn Thành');
+INSERT INTO `quanlyvattu`.`chitietphieunhap` (`id`, `phieunhap_id`, `vattu_id`, `soluongnhap`, `dongianhap`, `ghichu`) VALUES ('6', '3', '5', '100', '1200000', 'Hoàn Thành');
+-- CT Phiếu Xuất
+INSERT INTO `quanlyvattu`.`chitietphieuxuat` (`id`, `phieuxuat_id`, `vattu_id`, `soluongxuat`, `dongiaxuat`, `ghichu`) VALUES ('1', '3', '1', '300', '400000', 'Hoàn Thành');
+INSERT INTO `quanlyvattu`.`chitietphieuxuat` (`id`, `phieuxuat_id`, `vattu_id`, `soluongxuat`, `dongiaxuat`, `ghichu`) VALUES ('2', '2', '2', '400', '350000', 'Hoàn Thành');
+INSERT INTO `quanlyvattu`.`chitietphieuxuat` (`id`, `phieuxuat_id`, `vattu_id`, `soluongxuat`, `dongiaxuat`, `ghichu`) VALUES ('3', '1', '4', '5000', '980', 'Hoàn Thành');
+INSERT INTO `quanlyvattu`.`chitietphieuxuat` (`id`, `phieuxuat_id`, `vattu_id`, `soluongxuat`, `dongiaxuat`, `ghichu`) VALUES ('4', '3', '4', '7000', '980', 'Hoàn Thành');
+INSERT INTO `quanlyvattu`.`chitietphieuxuat` (`id`, `phieuxuat_id`, `vattu_id`, `soluongxuat`, `dongiaxuat`, `ghichu`) VALUES ('5', '2', '3', '500', '110000', 'Hoàn Thành');
+INSERT INTO `quanlyvattu`.`chitietphieuxuat` (`id`, `phieuxuat_id`, `vattu_id`, `soluongxuat`, `dongiaxuat`, `ghichu`) VALUES ('6', '1', '5', '120', '1270000', 'Hoàn Thành');
+-- Câu 1. Tạo view có tên vw_CTPNHAP bao gồm các thông tin sau: số phiếu nhập hàng, mã vật tư, số lượng nhập, đơn giá nhập, thành tiền nhập.
+create view vw_CTPNHAP as
+select maphieunhap,vattu_id, soluongnhap, dongianhap, sum(soluongnhap * dongianhap)as thanhtien from chitietphieunhap join phieunhap where chitietphieunhap.phieunhap_id = phieunhap.id group by chitietphieunhap.id;
+select * from vw_CTPNHAP;
+-- Câu 2. Tạo view có tên vw_CTPNHAP_VT bao gồm các thông tin sau: số phiếu nhập hàng, mã vật tư, tên vật tư, số lượng nhập, đơn giá nhập, thành tiền nhập.
+create view vw_CTPNHAP_VT as
+select vw_CTPNHAP.* , mavattu, tenvattu from vw_CTPNHAP join vattu where vw_CTPNHAP.vattu_id = vattu.id;
+select * from vw_CTPNHAP_VT;
+-- Câu 3. Tạo view có tên vw_CTPNHAP_VT_PN bao gồm các thông tin sau: số phiếu nhập hàng, ngày nhập hàng, số đơn đặt hàng, mã vật tư, tên vật tư, số lượng nhập, đơn giá nhập, thành tiền nhập.
+create view vw_CTPNHAP_VT_PN as
+select phieunhap.maphieunhap, phieunhap.ngaynhap, phieunhap.donhang_id, vattu.mavattu, vattu.tenvattu, chitietphieunhap.soluongnhap, chitietphieunhap.dongianhap, sum(soluongnhap * dongianhap)as thanhtien
+from chitietphieunhap join vattu on chitietphieunhap.vattu_id = vattu.id join phieunhap on chitietphieunhap.phieunhap_id = phieunhap.id group by chitietphieunhap.id;
+select * from vw_CTPNHAP_VT_PN;
+-- Câu 4. Tạo view có tên vw_CTPNHAP_VT_PN_DH bao gồm các thông tin sau: số phiếu nhập hàng, ngày nhập hàng, số đơn đặt hàng, mã nhà cung cấp, mã vật tư, tên vật tư, số lượng nhập, đơn giá nhập, thành tiền nhập.
+create view vw_CTPNHAP_VT_PN_DH as
+select vw_CTPNHAP_VT_PN.*, nhacungcap.manhacungcap from vw_CTPNHAP_VT_PN join dondathang on vw_CTPNHAP_VT_PN.donhang_id = dondathang.id join nhacungcap on dondathang.nhacungcap_id = nhacungcap.id;
+select * from vw_CTPNHAP_VT_PN_DH;
+-- Câu 5. Tạo view có tên vw_CTPNHAP_loc  bao gồm các thông tin sau: số phiếu nhập hàng, mã vật tư, số lượng nhập, đơn giá nhập, thành tiền nhập. Và chỉ liệt kê các chi tiết nhập có số lượng nhập > 5.
+create view vw_CTPNHAP_loc as
+select * from vw_CTPNHAP where vw_CTPNHAP.soluongnhap > 5;
+select * from vw_CTPNHAP_loc;
+-- Câu 6. Tạo view có tên vw_CTPNHAP_VT_loc bao gồm các thông tin sau: số phiếu nhập hàng, mã vật tư, tên vật tư, số lượng nhập, đơn giá nhập, thành tiền nhập. Và chỉ liệt kê các chi tiết nhập vật tư có đơn vị tính là Bộ.
+create view vw_CTPNHAP_VT_loc as
+select * from vw_CTPNHAP_VT join vattu on vw_CTPNHAP_VT.vattu_id = vattu.id where vattu.donvitinh = "Bao";
+select * from vw_CTPNHAP_VT_loc;
+-- Câu 7. Tạo view có tên vw_CTPXUAT bao gồm các thông tin sau: số phiếu xuất hàng, mã vật tư, số lượng xuất, đơn giá xuất, thành tiền xuất.
+create view vw_CTPXUAT as
+select maphieuxuat,vattu_id, soluongxuat, dongiaxuat, sum(soluongxuat * dongiaxuat)as thanhtienxuat from chitietphieuxuat join phieuxuat where chitietphieuxuat.phieuxuat_id = phieuxuat.id group by chitietphieuxuat.id;
+select * from vw_CTPXUAT;
+
+-- Câu 8. Tạo view có tên vw_CTPXUAT_VT bao gồm các thông tin sau: số phiếu xuất hàng, mã vật tư, tên vật tư, số lượng xuất, đơn giá xuất.
+create view vw_CTPXUAT_VT as
+select vw_CTPXUAT.* , mavattu, tenvattu from vw_CTPXUAT join vattu where vw_CTPXUAT.vattu_id = vattu.id;
+select * from vw_CTPXUAT_VT;
+-- Câu 9. Tạo view có tên vw_CTPXUAT_VT_PX bao gồm các thông tin sau: số phiếu xuất hàng, tên khách hàng, mã vật tư, tên vật tư, số lượng xuất, đơn giá xuất.
+create view vw_CTPXUAT_VT_PX as
+select phieuxuat.maphieuxuat, phieuxuat.tenkhachhang, vattu.mavattu, vattu.tenvattu, chitietphieuxuat.soluongxuat, chitietphieuxuat.dongiaxuat
+from chitietphieuxuat join vattu on chitietphieuxuat.vattu_id = vattu.id join phieuxuat on chitietphieuxuat.phieuxuat_id = phieuxuat.id group by chitietphieuxuat.id;
+select * from vw_CTPXUAT_VT_PX;
+
+-- Hết Phần view
+
+-- Bắt đầu phần stored procedure
+
+-- Câu 1. Tạo Stored procedure (SP) cho biết tổng số lượng cuối của vật tư với mã vật tư là tham số vào.
+DELIMITER //
+CREATE PROCEDURE findSumOfVatTu(
+		IN 	idvattu INT
+	)
+	BEGIN
+		SELECT	vattu.id,vattu.mavattu, (tonkho.soluongdau + tonkho.tongsoluongnhap - tonkho.tongsoluongxuat) AS 'Số lượng cuối cùng'
+        FROM vattu
+        JOIN tonkho
+        ON vattu.id = tonkho.vattu_id
+        WHERE vattu.id = idvattu;
+	END //
+DELIMITER ;
+
+CALL findSumOfVatTu(2);
+
+-- Câu 2. Tạo SP cho biết tổng tiền xuất của vật tư với mã vật tư là tham số vào.
+DELIMITER //
+CREATE PROCEDURE findSum(
+		IN 	idvattu	INT,
+        OUT	sum	INT
+	)
+    BEGIN
+		SELECT	(tonkho.soluongdau + tongsoluongnhap - tongsoluongxuat) INTO sum
+        FROM	vattu
+        JOIN	tonkho
+        ON		vattu.id = tonkho.vattu_id
+        WHERE	vattu.id = idvattu;
+	END//
+DELIMITER ;
+
+CALL 	findsum(1, @sum);
+SELECT	@sum;
+-- Câu 3. Tạo SP cho biết tổng số lượng đặt theo số đơn hàng với số đơn hàng là tham số vào.
+
+DELIMITER //
+CREATE PROCEDURE findTongTienXuat(
+		IN mavattu varchar(50)
+	)
+	BEGIN
+		SELECT	vattu.mavattu, vattu.tenvattu, (chitietphieuxuat.soluongxuat * chitietphieuxuat.dongiaxuat) AS 'Tổng tiền Xuất Vật Tư'
+		FROM vattu
+		JOIN chitietphieuxuat
+		ON	vattu.id = chitietphieuxuat.vattu_id
+		WHERE vattu.mavattu = mavattu;
+	END //
+DELIMITER ;
+
+CALL	findTongTienXuat ('VT_Đá');
+
+-- Câu 4. Tạo SP dùng để thêm một đơn đặt hàng.
+
+DELIMITER //
+CREATE PROCEDURE addDonDatHang (
+		IN	newid int,
+			newMadon VARCHAR(255),
+			newNgaydathang DATE,
+			newNhacungcap_id INT
+
+        )
+	BEGIN
+		INSERT INTO	dondathang (id,madon,ngaydathang,nhacungcap_id)
+		VALUES (newid,newMadon,newNgaydathang,newNhacungcap_id);
+
+	END //
+DELIMITER ;
+call addDonDatHang(4,'D04','2022-5-18',1);
+select * from dondathang;
+
+-- Câu 5. Tạo SP dùng để thêm một chi tiết đơn đặt hàng.
+
+DELIMITER //
+CREATE PROCEDURE addChiTietDonHang (
+		IN	newDonhang_id INT,
+			newVattu_id	INT,
+			newSoluongdat INT
+        )
+	BEGIN
+
+		INSERT INTO	chitiendonhang(donhang_id,vattu_id,soluongdat)
+		VALUES (newDonhang_id,newVattu_id,newSoluongdat);
+
+	END //
+DELIMITER ;
+
+call addChiTietDonHang(1,2,400);
+select * from chitiendonhang;
+
+
